@@ -24,11 +24,11 @@ class Settings {
 
         const Router = this.http.Router()
 
-        Router.post('/settings/', verify, handler.Store())
-        Router.get('/settings/', verify, handler.FindAll())
-        Router.get('/settings/:idSetting', verify, handler.Show())
+        Router.post('/', handler.Store())
+        Router.get('/', handler.FindAll())
+        Router.get('/:idSetting', handler.Show())
 
-        this.http.SetRouter('/v1/', Router)
+        this.http.SetRouter('/v1/settings/', verify, Router)
     }
 }
 

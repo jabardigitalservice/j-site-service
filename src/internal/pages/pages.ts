@@ -6,12 +6,11 @@ import {
     VerifySettingByDomain,
     VerifySettingById,
 } from '../../transport/http/middleware/verifySetting'
-import HttpHandler from './delivery/http/handler'
+import Handler from './delivery/http/handler'
 import Repository from './repository/mongo/repository'
 import Usecase from './usecase/usecase'
 
 class Pages {
-    private httpHandler: HttpHandler
     constructor(
         private http: Http,
         private logger: winston.Logger,
@@ -19,32 +18,32 @@ class Pages {
     ) {
         const repository = new Repository(logger)
         const usecase = new Usecase(repository, logger)
-        this.httpHandler = new HttpHandler(usecase, this.logger, http)
-        this.loadHttp()
+        this.loadHttp(usecase)
     }
 
-    private loadHttp() {
-        this.httpPublic()
-        this.httpCms()
+    private loadHttp(usecase: Usecase) {
+        const handler = new Handler(usecase, this.logger, this.http)
+        this.httpPublic(handler)
+        this.httpCms(handler)
     }
 
-    private httpPublic() {
+    private httpPublic(handler: Handler) {
         const verifySettingByDomain = VerifySettingByDomain(this.config.db.name)
         const Router = this.http.Router()
 
-        Router.get('/pages/:slug', this.httpHandler.FindBySlug())
+        Router.get('/:slug', handler.FindBySlug())
 
-        this.http.SetRouter('/v1/public/', verifySettingByDomain, Router)
+        this.http.SetRouter('/v1/public/pages/', verifySettingByDomain, Router)
     }
 
-    private httpCms() {
+    private httpCms(handler: Handler) {
         const verifyAuth = VerifyAuth(this.config.jwt.access_key)
         const verifySettingById = VerifySettingById(this.config.db.name)
         const Router = this.http.Router()
 
-        Router.post('/:idSetting', this.httpHandler.Store())
-        Router.get('/:idSetting', this.httpHandler.FindAll())
-        Router.get('/:idSetting/:idPage', this.httpHandler.Show())
+        Router.post('/:idSetting', handler.Store())
+        Router.get('/:idSetting', handler.FindAll())
+        Router.get('/:idSetting/:idPage', handler.Show())
 
         this.http.SetRouter('/v1/pages/', verifyAuth, verifySettingById, Router)
     }
