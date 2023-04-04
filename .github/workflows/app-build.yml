@@ -35,7 +35,7 @@ jobs:
           file: docker/Dockerfile
           context: .
           push: true
-          tags: ${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ secrets.SERVICE_IMAGENAME }}:${{ env.sha_short }}
 
       # GitOps
       - name: GitOps ArgoCD Setup
