@@ -21,7 +21,7 @@ jobs:
       # Configure Docker with Credentials
       - name: Configure Docker
         run: |
-          docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_USERNAME_JSITE }} -p "${{ secrets.REGISTRY_PASSWORD_JSITE }}"
+          docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_USERNAME }} -p "${{ secrets.REGISTRY_PASSWORD }}"
 
       # Build the Docker image
       - name: Set version tag
@@ -35,7 +35,7 @@ jobs:
           file: docker/Dockerfile
           context: .
           push: true
-          tags: ${{ secrets.JSITE_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
 
       # GitOps
       - name: GitOps ArgoCD Setup
@@ -48,7 +48,7 @@ jobs:
       - name: GitOps ArgoCD Update Image Tag J-Site Service Staging
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.JSITE_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/j-site/development/deployment.yaml'
+          cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/j-site/development/deployment.yaml'
 
       - name: GitOps ArgoCD Create Branch, Commit, Push
         run: |
