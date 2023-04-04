@@ -1,5 +1,8 @@
 # Microsite Service
 
+<a href="https://codeclimate.com/github/jabardigitalservice/j-site-service/maintainability"><img src="https://api.codeclimate.com/v1/badges/8ec5ca563a4c57802f49/maintainability" /></a>
+<a href="https://codeclimate.com/github/jabardigitalservice/j-site-service/test_coverage"><img src="https://api.codeclimate.com/v1/badges/8ec5ca563a4c57802f49/test_coverage" /></a>
+
 ## Tech Stack
 
 -   nodejs
