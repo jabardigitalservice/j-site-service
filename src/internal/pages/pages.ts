@@ -41,11 +41,16 @@ class Pages {
         const verifySettingById = VerifySettingById(this.config.db.name)
         const Router = this.http.Router()
 
-        Router.post('/:idSetting', verifySettingById, handler.Store())
-        Router.get('/:idSetting', verifySettingById, handler.FindAll())
-        Router.get('/:idSetting/:idPage', verifySettingById, handler.Show())
+        Router.post('/', handler.Store())
+        Router.get('/', handler.FindAll())
+        Router.get('/:idPage', handler.Show())
 
-        this.http.SetRouter('/v1/pages/', verifyAuth, Router)
+        this.http.SetRouter(
+            '/v1/pages/:idSetting/',
+            verifyAuth,
+            verifySettingById,
+            Router
+        )
     }
 }
 
