@@ -1,5 +1,8 @@
 import { Schema } from 'mongoose'
 import Mongo from '../mongo'
+import { status } from '../../constant/setting'
+import { except } from '../../constant/post'
+import slugify from 'slugify'
 
 const schema = new Schema(
     {
@@ -42,6 +45,21 @@ const schema = new Schema(
             type: String,
             required: true,
         },
+        status: {
+            type: String,
+            default: status.DRAFT,
+            required: true,
+        },
+        tags: {
+            type: Array,
+            default: [],
+            required: false,
+        },
+        is_pinned: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
     },
     {
         timestamps: {
@@ -51,6 +69,12 @@ const schema = new Schema(
         versionKey: false,
     }
 )
+
+schema.pre('save', function (next) {
+    this.slug = slugify(this.title + ' ' + this.id)
+    this.except = this.content.substring(0, except.maxLength)
+    next()
+})
 
 export default (database: string) => {
     return Mongo.Model(database, 'posts', schema)
