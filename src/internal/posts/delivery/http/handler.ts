@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 import winston from 'winston'
 import Usecase from '../../usecase/usecase'
 import { Store } from '../../entity/schema'
@@ -39,9 +39,9 @@ class Handler {
     public Show() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const idPage = ValidateObjectId(req.params.idPost, 'idPost')
+                const id = ValidateObjectId(req.params.idPost, 'idPost')
                 const setting = req.setting
-                const result = await this.usecase.Show(idPage, setting.id)
+                const result = await this.usecase.Show(id, setting.id)
                 this.logger.info(statusCode[statusCode.OK], {
                     additional_info: this.http.AdditionalInfo(
                         req,
