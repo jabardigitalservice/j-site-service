@@ -39,7 +39,7 @@ class Handler {
     public Show() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const id = ValidateObjectId(req.params.idPage, 'idPage')
+                const id = ValidateObjectId(req.params.idPost, 'idPost')
                 const setting = req.setting
                 const result = await this.usecase.Show(id, setting.id)
                 this.logger.info(statusCode[statusCode.OK], {
@@ -51,7 +51,7 @@ class Handler {
                 return res.json({
                     data: {
                         setting,
-                        page: result,
+                        post: result,
                     },
                 })
             } catch (error) {
@@ -100,7 +100,7 @@ class Handler {
                 return res.json({
                     data: {
                         setting,
-                        page: result,
+                        post: result,
                     },
                 })
             } catch (error) {

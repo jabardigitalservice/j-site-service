@@ -1,6 +1,7 @@
 import config from './config/config'
 import Mongo from './database/mongo/mongo'
 import Pages from './internal/pages/pages'
+import Posts from './internal/posts/posts'
 import Settings from './internal/settings/settings'
 import Logger from './pkg/logger'
 import Redis from './pkg/redis'
@@ -15,6 +16,7 @@ const main = async () => {
     // Load internal apps
     new Pages(http, logger, config)
     new Settings(http, logger, config)
+    new Posts(http, logger, config)
 
     http.Run(config.app.port.http)
 

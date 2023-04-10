@@ -1,10 +1,10 @@
 import winston from 'winston'
-import Page from '../../../../database/mongo/schemas/page.schema'
+import postSchema from '../../../../database/mongo/schemas/post.schema'
 import { PropPaginate } from '../../../../helpers/paginate'
 import { Store } from '../../entity/interface'
 
 class Repository {
-    private schema = Page
+    private schema = postSchema
     constructor(private logger: winston.Logger) {}
 
     public async Store(body: Store, database: string) {

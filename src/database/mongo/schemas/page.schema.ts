@@ -42,7 +42,7 @@ const schema = new Schema(
 )
 
 schema.pre('save', function (next) {
-    this.slug = slugify(this.title)
+    this.slug = slugify(this.title + ' ' + this.id)
     next()
 })
 
