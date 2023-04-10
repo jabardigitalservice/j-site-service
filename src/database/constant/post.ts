@@ -1,3 +1,3 @@
-export const except = {
+export const excerpt = {
     maxLength: 100,
 }

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 import Mongo from '../mongo'
 import { status } from '../../constant/setting'
-import { except } from '../../constant/post'
+import { excerpt } from '../../constant/post'
 import slugify from 'slugify'
 
 const schema = new Schema(
@@ -10,7 +10,7 @@ const schema = new Schema(
             type: String,
             required: true,
         },
-        except: String,
+        excerpt: String,
         title: {
             type: String,
             required: true,
@@ -72,7 +72,7 @@ const schema = new Schema(
 
 schema.pre('save', function (next) {
     this.slug = slugify(this.title + ' ' + this.id)
-    this.except = this.content.substring(0, except.maxLength)
+    this.excerpt = this.content.substring(0, excerpt.maxLength)
     next()
 })
 
