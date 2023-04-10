@@ -32,6 +32,7 @@ class Posts {
         const Router = this.http.Router()
 
         Router.get('/:slug', handler.FindBySlug())
+        Router.get('/', handler.FindAll())
 
         this.http.SetRouter('/v1/public/posts/', verifySettingByDomain, Router)
     }
