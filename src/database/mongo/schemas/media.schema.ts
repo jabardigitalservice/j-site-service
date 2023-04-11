@@ -10,7 +10,7 @@ const schema = new Schema(
         },
         file: {
             type: Object,
-            required: true
+            required: true,
         },
         caption: {
             type: String,

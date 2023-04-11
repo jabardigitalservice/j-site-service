@@ -20,16 +20,21 @@ class Handler {
         private http: Http,
         private config: Config
     ) {}
+
+    private getDataFormRequest = (req: any) => {
+        return ValidateFormRequest(Store, {
+            caption: req.body.caption,
+            category: req.body.category,
+            tags: req.body.tags,
+            file: req.file || {},
+        })
+    }
+
     public Store() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
                 const setting = req.setting
-                const value = ValidateFormRequest(Store, {
-                    caption: req.body.caption,
-                    category: req.body.category,
-                    tags: req.body.tags,
-                    file: req.file || {},
-                })
+                const value = this.getDataFormRequest(req)
 
                 value.file.source = value.file.path
                 value.file.path = CustomPathFile(
@@ -40,16 +45,13 @@ class Handler {
                 )
 
                 const result = await this.usecase.Store(value, setting.id)
-
                 this.logger.info(statusCode[statusCode.CREATED], {
                     additional_info: this.http.AdditionalInfo(
                         req,
                         statusCode.CREATED
                     ),
                 })
-
                 unlinkSync(this.http.dest + '/' + value.file.filename)
-
                 return res
                     .status(statusCode.CREATED)
                     .json({ data: result.toJSON(), message: 'CREATED' })
