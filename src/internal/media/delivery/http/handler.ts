@@ -46,6 +46,7 @@ class Handler {
                         statusCode.CREATED
                     ),
                 })
+                
                 unlinkSync(this.http.dest + '/' + value.file.filename)
                 return res
                     .status(statusCode.CREATED)

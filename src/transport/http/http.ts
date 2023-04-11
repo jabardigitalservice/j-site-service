@@ -8,6 +8,7 @@ import compression from 'compression'
 import { Config } from '../../config/config.interface'
 import Error from '../../pkg/error'
 import multer from 'multer'
+import { unlinkSync } from 'fs'
 
 class Http {
     private app: Express
@@ -34,6 +35,8 @@ class Http {
         res: Response,
         next: NextFunction
     ) => {
+        if (req.file) unlinkSync(this.dest + '/' + req.file.filename)
+
         const resp: Record<string, any> = {}
         resp.code = Number(error.status) || 500
         resp.error =
