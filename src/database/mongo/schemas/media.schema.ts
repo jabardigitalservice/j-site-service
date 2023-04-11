@@ -1,5 +1,4 @@
 import { Schema } from 'mongoose'
-import slugify from '../../../pkg/slug'
 import Mongo from '../mongo'
 
 const schema = new Schema(
@@ -9,27 +8,29 @@ const schema = new Schema(
             required: false,
             index: true,
         },
+        file: {
+            type: Object,
+            required: true
+        },
+        caption: {
+            type: String,
+            required: true,
+        },
+        category: {
+            type: String,
+            required: true,
+        },
         title: {
             type: String,
-            required: true,
-            index: true,
-            unique: true,
+            required: false,
         },
-        slug: {
+        description: {
             type: String,
-            index: true,
+            required: false,
         },
-        sections: {
-            type: Object,
+        tags: {
+            type: Array,
             required: true,
-        },
-        is_active: {
-            type: Boolean,
-            index: false,
-        },
-        banner: {
-            type: String,
-            default: null,
         },
     },
     {
@@ -41,11 +42,6 @@ const schema = new Schema(
     }
 )
 
-schema.pre('save', function (next) {
-    this.slug = slugify(this.title + ' ' + this.id)
-    next()
-})
-
 export default (database: string) => {
-    return Mongo.Model(database, 'pages', schema)
+    return Mongo.Model(database, 'media', schema)
 }

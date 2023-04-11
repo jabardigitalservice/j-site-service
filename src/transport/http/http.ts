@@ -7,9 +7,11 @@ import helmet from 'helmet'
 import compression from 'compression'
 import { Config } from '../../config/config.interface'
 import Error from '../../pkg/error'
+import multer from 'multer'
 
 class Http {
     private app: Express
+    public dest: string = 'tmp'
 
     constructor(private logger: winston.Logger, private config: Config) {
         this.app = express()
@@ -92,6 +94,11 @@ class Http {
                 statusCode[statusCode.NOT_FOUND]
             )
         })
+    }
+
+    public Upload(fieldName: string) {
+        const upload = multer({ dest: this.dest })
+        return upload.single(fieldName)
     }
 
     public Run(port: number) {

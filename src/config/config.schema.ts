@@ -20,4 +20,8 @@ export default Joi.object({
     REDIS_HOST: Joi.string().optional(),
     REDIS_PORT: Joi.number().optional(),
     REDIS_TTL: Joi.number().optional(),
+    FILE_TYPE: Joi.string()
+        .optional()
+        .default('image/jpg,image/png,image/jpeg,application/pdf'),
+    FILE_MAX: Joi.number().optional().default(10),
 })

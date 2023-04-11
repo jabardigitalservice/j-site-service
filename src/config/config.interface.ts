@@ -28,4 +28,8 @@ export interface Config {
         port: number
         ttl: number
     }
+    file: {
+        max: number
+        type: string[]
+    }
 }
