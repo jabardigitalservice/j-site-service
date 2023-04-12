@@ -32,14 +32,7 @@ class Media {
         this.httpCms(handler)
     }
 
-    private httpPublic(handler: Handler) {
-        const verifySettingByDomain = VerifySettingByDomain(this.config.db.name)
-        const Router = this.http.Router()
-
-        Router.get('/:idMedia', handler.Show())
-
-        this.http.SetRouter('/v1/public/media/', verifySettingByDomain, Router)
-    }
+    private httpPublic(handler: Handler) {}
 
     private httpCms(handler: Handler) {
         const verifyAuth = VerifyAuth(this.config.jwt.access_key)
