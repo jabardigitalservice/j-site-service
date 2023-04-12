@@ -49,7 +49,7 @@ const schema = new Schema(
 
 schema.virtual('file.uri').get(function () {
     if (this.file) {
-        return UriFile(config.file.access_public, this.file.path)
+        return UriFile(config.file.uri, this.file.path)
     }
 })
 
