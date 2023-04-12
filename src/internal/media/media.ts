@@ -2,10 +2,7 @@ import winston from 'winston'
 import { Config } from '../../config/config.interface'
 import Http from '../../transport/http/http'
 import { VerifyAuth } from '../../transport/http/middleware/verifyAuth'
-import {
-    VerifySettingByDomain,
-    VerifySettingById,
-} from '../../transport/http/middleware/verifySetting'
+import { VerifySettingById } from '../../transport/http/middleware/verifySetting'
 import Handler from './delivery/http/handler'
 import Repository from './repository/mongo/repository'
 import Usecase from './usecase/usecase'
@@ -22,12 +19,7 @@ class Media {
     }
 
     private loadHttp(usecase: Usecase) {
-        const handler = new Handler(
-            usecase,
-            this.logger,
-            this.http,
-            this.config
-        )
+        const handler = new Handler(usecase, this.logger, this.http)
         this.httpPublic(handler)
         this.httpCms(handler)
     }

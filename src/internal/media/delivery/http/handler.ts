@@ -17,8 +17,7 @@ class Handler {
     constructor(
         private usecase: Usecase,
         private logger: winston.Logger,
-        private http: Http,
-        private config: Config
+        private http: Http
     ) {}
 
     private getDataFormRequest = (req: any) => {
@@ -37,9 +36,8 @@ class Handler {
             try {
                 const setting = req.setting
                 const value = this.getDataFormRequest(req)
-                const env = this.config.app.env
                 value.file.source = value.file.path
-                value.file.path = CustomPathFile(env, setting.id, value)
+                value.file.path = CustomPathFile(setting.id, value)
 
                 const result = await this.usecase.Store(value, setting.id)
                 this.logger.info(statusCode[statusCode.CREATED], {
