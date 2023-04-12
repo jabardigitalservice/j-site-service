@@ -39,6 +39,13 @@ const config: Config = {
     file: {
         max: Number(env.FILE_MAX) * 1024 * 1024, // MB
         type: env.FILE_TYPE.split(','),
+        access_public: env.FILE_ACCESS_PUBLIC,
+    },
+    aws: {
+        access_key_id: env.AWS_ACCESS_KEY_ID,
+        secret_access_key: env.AWS_SECRET_ACCESS_KEY,
+        bucket: env.AWS_BUCKET,
+        region: env.AWS_REGION,
     },
 }
 

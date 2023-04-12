@@ -1,5 +1,6 @@
 import winston from 'winston'
 import { Config } from '../../config/config.interface'
+import S3 from '../../external/s3'
 import Http from '../../transport/http/http'
 import { VerifyAuth } from '../../transport/http/middleware/verifyAuth'
 import { VerifySettingById } from '../../transport/http/middleware/verifySetting'
@@ -13,13 +14,19 @@ class Media {
         private logger: winston.Logger,
         private config: Config
     ) {
+        const s3 = new S3(config)
         const repository = new Repository(logger)
-        const usecase = new Usecase(repository, logger)
+        const usecase = new Usecase(repository, logger, s3)
         this.loadHttp(usecase)
     }
 
     private loadHttp(usecase: Usecase) {
-        const handler = new Handler(usecase, this.logger, this.http)
+        const handler = new Handler(
+            usecase,
+            this.logger,
+            this.http,
+            this.config
+        )
         this.httpPublic(handler)
         this.httpCms(handler)
     }

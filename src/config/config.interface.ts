@@ -31,5 +31,12 @@ export interface Config {
     file: {
         max: number
         type: string[]
+        access_public: string
+    }
+    aws: {
+        access_key_id: string
+        secret_access_key: string
+        bucket: string
+        region: string
     }
 }

@@ -24,4 +24,9 @@ export default Joi.object({
         .optional()
         .default('image/jpg,image/png,image/jpeg,application/pdf'),
     FILE_MAX: Joi.number().optional().default(10),
+    FILE_ACCESS_PUBLIC: Joi.string().uri().optional(),
+    AWS_ACCESS_KEY_ID: Joi.string().optional(),
+    AWS_SECRET_ACCESS_KEY: Joi.string().optional(),
+    AWS_BUCKET: Joi.string().optional(),
+    AWS_REGION: Joi.string().optional(),
 })
