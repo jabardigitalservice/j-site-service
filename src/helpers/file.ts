@@ -6,6 +6,6 @@ export const CustomPathFile = (id: string, values: any) => {
     return `${id}/${category}/${file.filename}${ext}`
 }
 
-export const FullUriFile = (fileAccessPublic: string, path: string) => {
+export const UriFile = (fileAccessPublic: string, path: string) => {
     return `${fileAccessPublic}/${path}`
 }

@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 import config from '../../../config/config'
-import { FullUriFile } from '../../../helpers/file'
+import { UriFile } from '../../../helpers/file'
 import Mongo from '../mongo'
 
 const schema = new Schema(
@@ -49,7 +49,7 @@ const schema = new Schema(
 
 schema.virtual('file.uri').get(function () {
     if (this.file) {
-        return FullUriFile(config.file.access_public, this.file.path)
+        return UriFile(config.file.access_public, this.file.path)
     }
 })
 
