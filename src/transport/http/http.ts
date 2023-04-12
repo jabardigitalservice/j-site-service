@@ -7,9 +7,12 @@ import helmet from 'helmet'
 import compression from 'compression'
 import { Config } from '../../config/config.interface'
 import Error from '../../pkg/error'
+import multer from 'multer'
+import { unlinkSync } from 'fs'
 
 class Http {
     private app: Express
+    public dest: string = 'tmp'
 
     constructor(private logger: winston.Logger, private config: Config) {
         this.app = express()
@@ -32,6 +35,8 @@ class Http {
         res: Response,
         next: NextFunction
     ) => {
+        if (req.file) unlinkSync(this.dest + '/' + req.file.filename)
+
         const resp: Record<string, any> = {}
         resp.code = Number(error.status) || 500
         resp.error =
@@ -92,6 +97,11 @@ class Http {
                 statusCode[statusCode.NOT_FOUND]
             )
         })
+    }
+
+    public Upload(fieldName: string) {
+        const upload = multer({ dest: this.dest })
+        return upload.single(fieldName)
     }
 
     public Run(port: number) {

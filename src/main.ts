@@ -1,5 +1,6 @@
 import config from './config/config'
 import Mongo from './database/mongo/mongo'
+import Media from './internal/media/media'
 import Pages from './internal/pages/pages'
 import Posts from './internal/posts/posts'
 import Settings from './internal/settings/settings'
@@ -17,6 +18,7 @@ const main = async () => {
     new Pages(http, logger, config)
     new Settings(http, logger, config)
     new Posts(http, logger, config)
+    new Media(http, logger, config)
 
     http.Run(config.app.port.http)
 

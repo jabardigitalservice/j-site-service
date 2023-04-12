@@ -36,6 +36,10 @@ const config: Config = {
         port: env.REDIS_PORT,
         ttl: env.REDIS_TTL,
     },
+    file: {
+        max: Number(env.FILE_MAX) * 1024 * 1024, // MB
+        type: env.FILE_TYPE.split(','),
+    },
 }
 
 export default config

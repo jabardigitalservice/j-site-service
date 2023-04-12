@@ -9,6 +9,9 @@ import {
 import statusCode from '../../../../pkg/statusCode'
 import { Paginate } from '../../../../helpers/paginate'
 import Http from '../../../../transport/http/http'
+import { unlinkSync } from 'fs'
+import { Config } from '../../../../config/config.interface'
+import { CustomPathFile } from '../../../../helpers/file'
 
 class Handler {
     constructor(
@@ -16,11 +19,26 @@ class Handler {
         private logger: winston.Logger,
         private http: Http
     ) {}
+
+    private getDataFormRequest = (req: any) => {
+        return ValidateFormRequest(Store, {
+            caption: req.body.caption,
+            title: req.body.title,
+            description: req.body.description,
+            category: req.body.category,
+            tags: req.body.tags,
+            file: req.file || {},
+        })
+    }
+
     public Store() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const value = ValidateFormRequest(Store, req.body)
                 const setting = req.setting
+                const value = this.getDataFormRequest(req)
+                value.file.source = value.file.path
+                value.file.path = CustomPathFile(setting.id, value)
+
                 const result = await this.usecase.Store(value, setting.id)
                 this.logger.info(statusCode[statusCode.CREATED], {
                     additional_info: this.http.AdditionalInfo(
@@ -28,6 +46,8 @@ class Handler {
                         statusCode.CREATED
                     ),
                 })
+
+                unlinkSync(this.http.dest + '/' + value.file.filename)
                 return res
                     .status(statusCode.CREATED)
                     .json({ data: result.toJSON(), message: 'CREATED' })
@@ -39,7 +59,7 @@ class Handler {
     public Show() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const id = ValidateObjectId(req.params.idPost, 'idPost')
+                const id = ValidateObjectId(req.params.idMedia, 'idMedia')
                 const setting = req.setting
                 const result = await this.usecase.Show(id, setting.id)
                 this.logger.info(statusCode[statusCode.OK], {
@@ -74,31 +94,6 @@ class Handler {
                 return res.json({
                     data,
                     meta,
-                })
-            } catch (error) {
-                return next(error)
-            }
-        }
-    }
-    public FindBySlug() {
-        return async (req: any, res: Response, next: NextFunction) => {
-            try {
-                const setting = req.setting
-                const result = await this.usecase.FindBySlug(
-                    req.params.slug,
-                    setting.id
-                )
-                this.logger.info(statusCode[statusCode.OK], {
-                    additional_info: this.http.AdditionalInfo(
-                        req,
-                        statusCode.OK
-                    ),
-                })
-                return res.json({
-                    data: {
-                        setting,
-                        post: result,
-                    },
                 })
             } catch (error) {
                 return next(error)
