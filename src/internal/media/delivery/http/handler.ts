@@ -24,6 +24,8 @@ class Handler {
     private getDataFormRequest = (req: any) => {
         return ValidateFormRequest(Store, {
             caption: req.body.caption,
+            title: req.body.title,
+            description: req.body.description,
             category: req.body.category,
             tags: req.body.tags,
             file: req.file || {},
