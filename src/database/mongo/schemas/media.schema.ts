@@ -1,6 +1,5 @@
 import { Schema } from 'mongoose'
 import config from '../../../config/config'
-import { UriFile } from '../../../helpers/file'
 import Mongo from '../mongo'
 
 const schema = new Schema(
@@ -49,7 +48,7 @@ const schema = new Schema(
 
 schema.virtual('file.uri').get(function () {
     if (this.file) {
-        return UriFile(config.file.uri, this.file.path)
+        return `${config.file.uri}/${this.file.path}`
     }
 })
 
