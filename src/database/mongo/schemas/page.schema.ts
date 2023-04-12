@@ -25,7 +25,7 @@ const schema = new Schema(
         },
         is_active: {
             type: Boolean,
-            index: false,
+            index: true,
         },
         banner: {
             type: String,
