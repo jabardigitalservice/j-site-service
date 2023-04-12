@@ -14,11 +14,6 @@ class Repository {
         return schemaNew.save()
     }
 
-    public async FindByTitle(title: string, database: string) {
-        const schema = this.schema(database)
-        return schema.findOne({ title })
-    }
-
     public async FindById(id: string, database: string) {
         const schema = this.schema(database)
         return schema.findById(id)
