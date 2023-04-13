@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose'
+import config from '../../../config/config'
 import Mongo from '../mongo'
 
 const schema = new Schema(
@@ -39,8 +40,17 @@ const schema = new Schema(
             updatedAt: 'updated_at',
         },
         versionKey: false,
+        toJSON: {
+            virtuals: true,
+        },
     }
 )
+
+schema.virtual('file.uri').get(function () {
+    if (this.file) {
+        return `${config.file.uri}/${this.file.path}`
+    }
+})
 
 export default (database: string) => {
     return Mongo.Model(database, 'media', schema)

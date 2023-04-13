@@ -17,7 +17,8 @@ class Handler {
     constructor(
         private usecase: Usecase,
         private logger: winston.Logger,
-        private http: Http
+        private http: Http,
+        private config: Config
     ) {}
 
     private getDataFormRequest = (req: any) => {
