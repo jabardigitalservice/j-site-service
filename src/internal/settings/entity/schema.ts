@@ -1,7 +1,6 @@
 import Joi from 'joi'
 
 export const Store = Joi.object({
-    organization: Joi.string().required(),
     domain: Joi.string().required(),
     favicon: Joi.string().uri().optional().default(null),
     icon: Joi.string().uri().required(),

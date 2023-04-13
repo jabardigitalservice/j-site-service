@@ -21,12 +21,7 @@ class Media {
     }
 
     private loadHttp(usecase: Usecase) {
-        const handler = new Handler(
-            usecase,
-            this.logger,
-            this.http,
-            this.config
-        )
+        const handler = new Handler(usecase, this.logger, this.http)
         this.httpPublic(handler)
         this.httpCms(handler)
     }
