@@ -12,6 +12,7 @@ class Mongo {
                 authSource: db.auth_source,
                 pass: db.password,
                 user: db.username,
+                retryWrites: true,
             })
             .then(() => {
                 logger.info('Connection to database established')
