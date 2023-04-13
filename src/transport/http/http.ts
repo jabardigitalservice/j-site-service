@@ -12,7 +12,7 @@ import { unlinkSync } from 'fs'
 
 class Http {
     private app: Express
-    public dest: string = 'tmp'
+    public dest: string = '.'
 
     constructor(private logger: winston.Logger, private config: Config) {
         this.app = express()
