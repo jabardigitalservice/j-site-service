@@ -6,6 +6,11 @@ import slugify from 'slugify'
 
 const schema = new Schema(
     {
+        created_by: {
+            type: String,
+            required: false,
+            index: true,
+        },
         content: {
             type: String,
             required: true,

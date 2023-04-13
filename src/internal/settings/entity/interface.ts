@@ -7,4 +7,5 @@ export interface Store {
     logo: string
     color_palatte: string
     name: string
+    created_by: string
 }

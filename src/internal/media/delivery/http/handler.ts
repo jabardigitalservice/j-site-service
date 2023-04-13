@@ -10,26 +10,29 @@ import statusCode from '../../../../pkg/statusCode'
 import { Paginate } from '../../../../helpers/paginate'
 import Http from '../../../../transport/http/http'
 import { unlinkSync } from 'fs'
-import { Config } from '../../../../config/config.interface'
 import { CustomPathFile } from '../../../../helpers/file'
+import { IUser } from '../../../../transport/http/middleware/verifyAuth'
 
 class Handler {
     constructor(
         private usecase: Usecase,
         private logger: winston.Logger,
-        private http: Http,
-        private config: Config
+        private http: Http
     ) {}
 
     private getDataFormRequest = (req: any) => {
-        return ValidateFormRequest(Store, {
-            caption: req.body.caption,
-            title: req.body.title,
-            description: req.body.description,
-            category: req.body.category,
-            tags: req.body.tags,
-            file: req.file || {},
-        })
+        const user = req.user as IUser
+        return {
+            ...ValidateFormRequest(Store, {
+                caption: req.body.caption,
+                title: req.body.title,
+                description: req.body.description,
+                category: req.body.category,
+                tags: req.body.tags,
+                file: req.file || {},
+            }),
+            created_by: user.id,
+        }
     }
 
     public Store() {

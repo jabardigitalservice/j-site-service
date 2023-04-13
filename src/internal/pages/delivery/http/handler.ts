@@ -9,6 +9,7 @@ import {
 import statusCode from '../../../../pkg/statusCode'
 import { Paginate } from '../../../../helpers/paginate'
 import Http from '../../../../transport/http/http'
+import { IUser } from '../../../../transport/http/middleware/verifyAuth'
 
 class Handler {
     constructor(
@@ -19,7 +20,11 @@ class Handler {
     public Store() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const value = ValidateFormRequest(Store, req.body)
+                const user = req.user as IUser
+                const value = {
+                    ...ValidateFormRequest(Store, req.body),
+                    created_by: user.id,
+                }
                 const setting = req.setting
                 const result = await this.usecase.Store(value, setting.id)
                 this.logger.info(statusCode[statusCode.CREATED], {
