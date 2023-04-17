@@ -56,7 +56,7 @@ const schema = new Schema(
             required: true,
         },
         tags: {
-            type: Array,
+            type: [String],
             default: [],
             required: false,
         },

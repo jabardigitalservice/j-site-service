@@ -30,7 +30,7 @@ const schema = new Schema(
             required: false,
         },
         tags: {
-            type: Array,
+            type: [String],
             required: true,
         },
     },
