@@ -13,6 +13,7 @@ class Mongo {
                 pass: db.password,
                 user: db.username,
                 retryWrites: true,
+                writeConcern: { w: 'majority' },
             })
             .then(() => {
                 logger.info('Connection to database established')
