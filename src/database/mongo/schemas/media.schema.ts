@@ -10,8 +10,11 @@ const schema = new Schema(
             index: true,
         },
         file: {
-            type: Object,
-            required: true,
+            path: String,
+            size: Number,
+            mimetype: String,
+            originalname: String,
+            filename: String,
         },
         caption: {
             type: String,
@@ -30,7 +33,7 @@ const schema = new Schema(
             required: false,
         },
         tags: {
-            type: Array,
+            type: [String],
             required: true,
         },
     },
@@ -47,7 +50,7 @@ const schema = new Schema(
 )
 
 schema.virtual('file.uri').get(function () {
-    if (this.file) {
+    if (this.file?.path) {
         return `${config.file.uri}/${this.file.path}`
     }
 })
