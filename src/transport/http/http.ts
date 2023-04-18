@@ -64,7 +64,7 @@ class Http {
         return res.status(resp.code).json(resp)
     }
 
-    public AdditionalInfo(req: Request, statusCode: number) {
+    public AdditionalInfo(req: any, statusCode: number) {
         return {
             env: this.config.app.env,
             http_uri: req.originalUrl,
@@ -75,6 +75,7 @@ class Http {
             user_agent: req.headers['user-agent'],
             tz: new Date(),
             code: statusCode,
+            user: req.user || {},
         }
     }
 

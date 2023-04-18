@@ -69,7 +69,11 @@ class Handler {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
                 const paginate = Paginate(req.query)
-                const { data, meta } = await this.usecase.FindAll(paginate)
+                const user = req.user as IUser
+                const { data, meta } = await this.usecase.FindAll(
+                    paginate,
+                    user
+                )
                 this.logger.info(statusCode[statusCode.OK], {
                     additional_info: this.http.AdditionalInfo(
                         req,

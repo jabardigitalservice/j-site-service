@@ -3,6 +3,7 @@ import { Meta, PropPaginate } from '../../../helpers/paginate'
 import { Translate } from '../../../helpers/translate'
 import error from '../../../pkg/error'
 import statusCode from '../../../pkg/statusCode'
+import { IUser } from '../../../transport/http/middleware/verifyAuth'
 import { Store } from '../entity/interface'
 import Repository from '../repository/mongo/repository'
 
@@ -37,9 +38,9 @@ class Usecase {
         return item
     }
 
-    public async FindAll(prop: PropPaginate) {
-        const data = await this.repository.FindAll(prop)
-        const count = await this.repository.GetCount()
+    public async FindAll(prop: PropPaginate, user: IUser) {
+        const data = await this.repository.FindAll(prop, user)
+        const count = await this.repository.GetCount(user)
 
         return { data, meta: Meta(prop, count) }
     }
