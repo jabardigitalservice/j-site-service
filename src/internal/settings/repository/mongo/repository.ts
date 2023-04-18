@@ -3,6 +3,7 @@ import { status } from '../../../../database/constant/setting'
 import Setting from '../../../../database/mongo/schemas/setting.schema'
 import { RemoveProcotol } from '../../../../helpers/http'
 import { PropPaginate } from '../../../../helpers/paginate'
+import { IUser } from '../../../../transport/http/middleware/verifyAuth'
 import { Store } from '../../entity/interface'
 
 class Repository {
@@ -29,12 +30,20 @@ class Repository {
         return this.setting.findById(id)
     }
 
-    public async FindAll({ limit, offset }: PropPaginate) {
-        return this.setting.find().skip(offset).limit(limit)
+    private filterByUser(user: IUser) {
+        return {
+            organization: user.unit.name,
+        }
     }
 
-    public async GetCount() {
-        return this.setting.count()
+    public async FindAll({ limit, offset }: PropPaginate, user: IUser) {
+        const filter = this.filterByUser(user)
+        return this.setting.find(filter).skip(offset).limit(limit)
+    }
+
+    public async GetCount(user: IUser) {
+        const filter = this.filterByUser(user)
+        return this.setting.find(filter).count()
     }
 }
 
