@@ -4,7 +4,7 @@ import { Translate } from '../../../helpers/translate'
 import error from '../../../pkg/error'
 import statusCode from '../../../pkg/statusCode'
 import { IUser } from '../../../transport/http/middleware/verifyAuth'
-import { Store } from '../entity/interface'
+import { Store, UpdateNavigation } from '../entity/interface'
 import Repository from '../repository/mongo/repository'
 
 class Usecase {
@@ -23,6 +23,19 @@ class Usecase {
             )
 
         const result = await this.repository.Store(body)
+        return result
+    }
+
+    public async UpdateNavigation(id: string, body: UpdateNavigation) {
+        const item = await this.repository.FindByID(id)
+
+        if (!item)
+            throw new error(
+                statusCode.NOT_FOUND,
+                statusCode[statusCode.NOT_FOUND]
+            )
+
+        const result = await this.repository.UpdateNavigation(id, body)
         return result
     }
 

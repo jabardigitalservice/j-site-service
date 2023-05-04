@@ -50,7 +50,7 @@ const schema = new Schema(
             type: String,
             required: true,
         },
-        navbar: {
+        navigation: {
             type: Object,
             default: null,
         },
