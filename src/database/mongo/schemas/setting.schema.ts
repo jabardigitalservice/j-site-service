@@ -46,7 +46,7 @@ const schema = new Schema(
             type: Boolean,
             index: true,
         },
-        icon: {
+        logo: {
             type: String,
             required: true,
         },
@@ -55,10 +55,6 @@ const schema = new Schema(
             default: null,
         },
         footer: {
-            type: Object,
-            default: null,
-        },
-        social_media: {
             type: Object,
             default: null,
         },
