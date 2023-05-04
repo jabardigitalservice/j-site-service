@@ -57,7 +57,7 @@ const schema = new Schema(
         footer: {
             type: Object,
             default: null,
-        }
+        },
     },
     {
         timestamps: {
