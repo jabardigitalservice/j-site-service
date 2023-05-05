@@ -8,3 +8,20 @@ export interface Store {
     name: string
     created_by: string
 }
+
+export interface UpdateNavigation {
+    home: string
+    menus: Menu[]
+}
+
+interface Menu {
+    name: string
+    link: string
+    children: Children[]
+}
+
+interface Children {
+    name: string
+    to: string
+    slug: string
+}

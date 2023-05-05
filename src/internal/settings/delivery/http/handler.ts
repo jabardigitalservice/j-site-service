@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import winston from 'winston'
 import Usecase from '../../usecase/usecase'
-import { Store } from '../../entity/schema'
+import { Store, UpdateNavigation } from '../../entity/schema'
 import {
     ValidateFormRequest,
     ValidateObjectId,
@@ -42,6 +42,29 @@ class Handler {
             }
         }
     }
+    public UpdateNavigation() {
+        return async (req: any, res: Response, next: NextFunction) => {
+            try {
+                const value = ValidateFormRequest(UpdateNavigation, req.body)
+                const idSetting = ValidateObjectId(
+                    req.params.idSetting,
+                    'idSetting'
+                )
+                await this.usecase.UpdateNavigation(idSetting, value)
+                this.logger.info(statusCode[statusCode.OK], {
+                    additional_info: this.http.AdditionalInfo(
+                        req,
+                        statusCode.OK
+                    ),
+                })
+
+                return res.status(statusCode.OK).json({ message: 'UPDATED' })
+            } catch (error) {
+                return next(error)
+            }
+        }
+    }
+
     public Show() {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
