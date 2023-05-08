@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose'
-import { RemoveProcotol } from '../../../helpers/http'
+import config from '../../../config/config'
+import { Translate } from '../../../helpers/translate'
 import Mongo from '../mongo'
 
 const schema = new Schema(
@@ -27,7 +28,7 @@ const schema = new Schema(
             type: String,
             required: true,
         },
-        domain: {
+        subdomain: {
             type: String,
             required: true,
             index: true,
@@ -65,12 +66,17 @@ const schema = new Schema(
             updatedAt: 'updated_at',
         },
         versionKey: false,
+        toJSON: {
+            virtuals: true,
+        },
     }
 )
 
-schema.pre('save', function (next) {
-    this.domain = RemoveProcotol(this.domain)
-    next()
+schema.virtual('domain').get(function () {
+    return Translate('domain', {
+        subdomain: this.subdomain,
+        domain: config.domain.base_url,
+    })
 })
 
 export default (database: string) => {

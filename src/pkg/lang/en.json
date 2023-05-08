@@ -1,5 +1,6 @@
 {
     "exists": "This {{attribute}} is already exists",
     "objectID": "This {{attribute}} is not valid",
-    "message": "message"
+    "message": "message",
+    "domain": "{{subdomain}}.{{domain}}"
 }

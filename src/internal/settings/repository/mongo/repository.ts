@@ -22,8 +22,8 @@ class Repository {
         return settingNew.save()
     }
 
-    public async FindByDomain(domain: string) {
-        return this.setting.findOne({ domain: RemoveProcotol(domain) })
+    public async FindBySubdomain(subdomain: string) {
+        return this.setting.findOne({ subdomain })
     }
 
     public async FindByID(id: string) {

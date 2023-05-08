@@ -39,4 +39,7 @@ export interface Config {
         bucket: string
         region: string
     }
+    domain: {
+        base_url: string
+    }
 }

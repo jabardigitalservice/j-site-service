@@ -14,12 +14,12 @@ class Usecase {
     ) {}
 
     public async Store(body: Store) {
-        const isExist = await this.repository.FindByDomain(body.domain)
+        const isExist = await this.repository.FindBySubdomain(body.subdomain)
 
         if (isExist)
             throw new error(
                 statusCode.BAD_REQUEST,
-                Translate('exists', { attribute: 'domain' })
+                Translate('exists', { attribute: 'subdomain' })
             )
 
         const result = await this.repository.Store(body)
