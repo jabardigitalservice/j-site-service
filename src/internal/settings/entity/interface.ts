@@ -1,6 +1,6 @@
 export interface Store {
     organization: string
-    domain: string
+    subdomain: string
     favicon: string
     title: string
     logo: string

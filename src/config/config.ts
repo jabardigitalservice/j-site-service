@@ -47,6 +47,9 @@ const config: Config = {
         bucket: env.AWS_BUCKET,
         region: env.AWS_REGION,
     },
+    domain: {
+        base_url: env.DOMAIN_BASE_URL,
+    },
 }
 
 export default config
