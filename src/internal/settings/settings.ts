@@ -28,6 +28,7 @@ class Settings {
         Router.get('/', handler.FindAll())
         Router.get('/:idSetting', handler.Show())
         Router.patch('/:idSetting/navigation', handler.UpdateNavigation())
+        Router.patch('/:idSetting/footer', handler.UpdateFooter())
 
         this.http.SetRouter('/v1/settings/', verify, Router)
     }

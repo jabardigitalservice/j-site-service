@@ -1,10 +1,9 @@
 import winston from 'winston'
 import { status } from '../../../../database/constant/setting'
 import Setting from '../../../../database/mongo/schemas/setting.schema'
-import { RemoveProcotol } from '../../../../helpers/http'
 import { PropPaginate } from '../../../../helpers/paginate'
 import { IUser } from '../../../../transport/http/middleware/verifyAuth'
-import { Store, UpdateNavigation } from '../../entity/interface'
+import { Store, UpdateFooter, UpdateNavigation } from '../../entity/interface'
 
 class Repository {
     private setting
@@ -49,6 +48,13 @@ class Repository {
     public async UpdateNavigation(id: string, body: UpdateNavigation) {
         return this.setting.findByIdAndUpdate(id, {
             navigation: body,
+            updated_at: new Date(),
+        })
+    }
+
+    public async UpdateFooter(id: string, body: UpdateFooter) {
+        return this.setting.findByIdAndUpdate(id, {
+            footer: body,
             updated_at: new Date(),
         })
     }
