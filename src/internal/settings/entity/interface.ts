@@ -9,6 +9,21 @@ export interface Store {
     created_by: string
 }
 
+export interface UpdateFooter {
+    manager_name: string
+    address: string
+    phone_number: string
+    email: string
+    copyright: string
+    social_media: {
+        facebook: string
+        instagram: string
+        twitter: string
+        youtube: string
+        email: string
+    }
+}
+
 export interface UpdateNavigation {
     home: string
     menus: Menu[]
