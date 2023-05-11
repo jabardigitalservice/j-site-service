@@ -1,5 +1,7 @@
+import mongoose from 'mongoose'
 import winston from 'winston'
 import { status } from '../../../../database/constant/setting'
+import Mongo from '../../../../database/mongo/mongo'
 import Setting from '../../../../database/mongo/schemas/setting.schema'
 import { PropPaginate } from '../../../../helpers/paginate'
 import { IUser } from '../../../../transport/http/middleware/verifyAuth'
@@ -57,6 +59,11 @@ class Repository {
             footer: body,
             updated_at: new Date(),
         })
+    }
+
+    public async Destroy(id: string) {
+        await Mongo.DropDatabase(id)
+        return this.setting.findByIdAndDelete(id)
     }
 }
 

@@ -110,6 +110,27 @@ class Handler {
             }
         }
     }
+    public Destroy() {
+        return async (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const idSetting = ValidateObjectId(
+                    req.params.idSetting,
+                    'idSetting'
+                )
+
+                await this.usecase.Destroy(idSetting)
+                this.logger.info(statusCode[statusCode.OK], {
+                    additional_info: this.http.AdditionalInfo(
+                        req,
+                        statusCode.OK
+                    ),
+                })
+                return res.status(statusCode.OK).json({ message: 'DELETED' })
+            } catch (error) {
+                return next(error)
+            }
+        }
+    }
     public FindAll() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {

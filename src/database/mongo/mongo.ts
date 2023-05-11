@@ -45,6 +45,12 @@ class Mongo {
             domain: RemoveProcotol(domain),
         })
     }
+
+    public static DropDatabase(dbName: string) {
+        return mongoose.connection.db.dropDatabase({
+            dbName,
+        })
+    }
 }
 
 export default Mongo
