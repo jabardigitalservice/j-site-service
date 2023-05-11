@@ -62,7 +62,7 @@ class Repository {
     }
 
     public async Destroy(id: string) {
-        await Mongo.Destroy(id)
+        await Mongo.DropDatabase(id)
         return this.setting.findByIdAndDelete(id)
     }
 }

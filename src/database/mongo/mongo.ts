@@ -46,7 +46,7 @@ class Mongo {
         })
     }
 
-    public static Destroy(dbName: string) {
+    public static DropDatabase(dbName: string) {
         return mongoose.connection.db.dropDatabase({
             dbName,
         })
