@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import winston from 'winston'
 import { status } from '../../../../database/constant/setting'
 import Setting from '../../../../database/mongo/schemas/setting.schema'
@@ -57,6 +58,13 @@ class Repository {
             footer: body,
             updated_at: new Date(),
         })
+    }
+
+    public async Destroy(id: string) {
+        await mongoose.connection.db.dropDatabase({
+            dbName: id,
+        })
+        return this.setting.findByIdAndDelete(id)
     }
 }
 

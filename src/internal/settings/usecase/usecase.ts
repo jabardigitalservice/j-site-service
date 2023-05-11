@@ -52,6 +52,19 @@ class Usecase {
         return result
     }
 
+    public async Destroy(id: string) {
+        const item = await this.repository.FindByID(id)
+
+        if (!item)
+            throw new error(
+                statusCode.NOT_FOUND,
+                statusCode[statusCode.NOT_FOUND]
+            )
+
+        const result = await this.repository.Destroy(id)
+        return result
+    }
+
     public async Show(id: string) {
         const item = await this.repository.FindByID(id)
 
