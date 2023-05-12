@@ -9,6 +9,11 @@ const schema = new Schema(
             required: false,
             index: true,
         },
+        organization: {
+            type: String,
+            required: true,
+            index: true,
+        },
         file: {
             path: String,
             size: Number,

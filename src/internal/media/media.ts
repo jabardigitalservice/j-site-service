@@ -3,7 +3,6 @@ import { Config } from '../../config/config.interface'
 import S3 from '../../external/s3'
 import Http from '../../transport/http/http'
 import { VerifyAuth } from '../../transport/http/middleware/verifyAuth'
-import { VerifySettingById } from '../../transport/http/middleware/verifySetting'
 import Handler from './delivery/http/handler'
 import Repository from './repository/mongo/repository'
 import Usecase from './usecase/usecase'
@@ -21,7 +20,12 @@ class Media {
     }
 
     private loadHttp(usecase: Usecase) {
-        const handler = new Handler(usecase, this.logger, this.http)
+        const handler = new Handler(
+            usecase,
+            this.logger,
+            this.http,
+            this.config
+        )
         this.httpPublic(handler)
         this.httpCms(handler)
     }
@@ -30,19 +34,13 @@ class Media {
 
     private httpCms(handler: Handler) {
         const verifyAuth = VerifyAuth(this.config.jwt.access_key)
-        const verifySettingById = VerifySettingById(this.config.db.name)
         const Router = this.http.Router()
 
         Router.post('/', this.http.Upload('file'), handler.Store())
         Router.get('/', handler.FindAll())
         Router.get('/:idMedia', handler.Show())
 
-        this.http.SetRouter(
-            '/v1/media/:idSetting/',
-            verifyAuth,
-            verifySettingById,
-            Router
-        )
+        this.http.SetRouter('/v1/media/', verifyAuth, Router)
     }
 }
 
