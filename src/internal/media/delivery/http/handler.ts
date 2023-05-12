@@ -12,12 +12,15 @@ import Http from '../../../../transport/http/http'
 import { unlinkSync } from 'fs'
 import { CustomPathFile } from '../../../../helpers/file'
 import { IUser } from '../../../../transport/http/middleware/verifyAuth'
+import { Config } from '../../../../config/config.interface'
+import slugify from 'slugify'
 
 class Handler {
     constructor(
         private usecase: Usecase,
         private logger: winston.Logger,
-        private http: Http
+        private http: Http,
+        private config: Config
     ) {}
 
     private getDataFormRequest = (req: any) => {
@@ -31,6 +34,7 @@ class Handler {
                 tags: req.body.tags,
                 file: req.file || {},
             }),
+            organization: user.unit.name,
             created_by: user.id,
         }
     }
@@ -38,12 +42,16 @@ class Handler {
     public Store() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const setting = req.setting
+                const user = req.user as IUser
                 const value = this.getDataFormRequest(req)
                 value.file.source = value.file.path
-                value.file.path = CustomPathFile(setting.id, value)
+                const slugFromUnitName = slugify(user.unit.name).toLowerCase()
+                value.file.path = CustomPathFile(slugFromUnitName, value)
 
-                const result = await this.usecase.Store(value, setting.id)
+                const result = await this.usecase.Store(
+                    value,
+                    this.config.db.name
+                )
                 this.logger.info(statusCode[statusCode.CREATED], {
                     additional_info: this.http.AdditionalInfo(
                         req,
