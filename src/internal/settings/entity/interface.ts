@@ -4,7 +4,7 @@ export interface Store {
     favicon: string
     title: string
     logo: string
-    color_palatte: string
+    color_palette: string
     name: string
     created_by: string
 }

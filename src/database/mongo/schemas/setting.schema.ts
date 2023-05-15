@@ -79,6 +79,14 @@ schema.virtual('domain').get(function () {
     })
 })
 
+schema.virtual('favicon_uri').get(function () {
+    return `${config.file.uri}${this.favicon}`
+})
+
+schema.virtual('logo_uri').get(function () {
+    return `${config.file.uri}${this.logo}`
+})
+
 export default (database: string) => {
     return Mongo.Model(database, 'settings', schema)
 }

@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose'
 import slugify from '../../../pkg/slug'
 import Mongo from '../mongo'
+import config from '../../../config/config'
 
 const schema = new Schema(
     {
@@ -44,6 +45,10 @@ const schema = new Schema(
 schema.pre('save', function (next) {
     this.slug = slugify(this.title + ' ' + this.id)
     next()
+})
+
+schema.virtual('banner_uri').get(function () {
+    return `${config.file.uri}${this.banner}`
 })
 
 export default (database: string) => {

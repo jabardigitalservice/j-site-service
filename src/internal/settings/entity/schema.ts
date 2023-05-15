@@ -4,7 +4,7 @@ export const Store = Joi.object({
     subdomain: Joi.string().required(),
     favicon: Joi.string().uri().required(),
     logo: Joi.string().uri().required(),
-    color_palatte: Joi.string().required(),
+    color_palette: Joi.string().required(),
     name: Joi.string().required(),
 })
 
