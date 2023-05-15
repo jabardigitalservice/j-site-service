@@ -56,7 +56,7 @@ const schema = new Schema(
 
 schema.virtual('file.uri').get(function () {
     if (this.file?.path) {
-        return `${config.file.uri}/${this.file.path}`
+        return `${config.file.uri}${this.file.path}`
     }
 })
 
