@@ -3,6 +3,7 @@ import Mongo from '../mongo'
 import { status } from '../../constant/setting'
 import { excerpt } from '../../constant/post'
 import slugify from 'slugify'
+import config from '../../../config/config'
 
 const schema = new Schema(
     {
@@ -79,6 +80,10 @@ schema.pre('save', function (next) {
     this.slug = slugify(this.title + ' ' + this.id)
     this.excerpt = this.content.substring(0, excerpt.maxLength)
     next()
+})
+
+schema.virtual('image_uri').get(function () {
+    return `${config.file.uri}${this.image}`
 })
 
 export default (database: string) => {
