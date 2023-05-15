@@ -1,7 +1,7 @@
 import path from 'path'
 
-export const CustomPathFile = (id: string, values: any) => {
+export const CustomPathFile = (unit: string, values: any) => {
     const { file, category } = values
     const ext = path.extname(file.originalname)
-    return `${id}/${category}/${file.filename}${ext}`
+    return `/${unit}/${category}/${file.filename}${ext}`
 }
