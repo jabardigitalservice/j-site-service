@@ -1,12 +1,8 @@
 export interface Store {
-    organization: string
     subdomain: string
     favicon: string
-    title: string
     logo: string
-    color_palette: string
     name: string
-    created_by: string
 }
 
 export interface UpdateFooter {
@@ -22,6 +18,10 @@ export interface UpdateFooter {
         youtube: string
         email: string
     }
+}
+
+export interface UpdateTheme {
+    color_palette: string
 }
 
 export interface UpdateNavigation {

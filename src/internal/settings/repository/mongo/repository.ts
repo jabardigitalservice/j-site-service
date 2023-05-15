@@ -1,11 +1,15 @@
-import mongoose from 'mongoose'
 import winston from 'winston'
 import { status } from '../../../../database/constant/setting'
 import Mongo from '../../../../database/mongo/mongo'
 import Setting from '../../../../database/mongo/schemas/setting.schema'
 import { PropPaginate } from '../../../../helpers/paginate'
 import { IUser } from '../../../../transport/http/middleware/verifyAuth'
-import { Store, UpdateFooter, UpdateNavigation } from '../../entity/interface'
+import {
+    Store,
+    UpdateFooter,
+    UpdateNavigation,
+    UpdateTheme,
+} from '../../entity/interface'
 
 class Repository {
     private setting
@@ -13,9 +17,11 @@ class Repository {
         this.setting = Setting(database)
     }
 
-    public async Store(body: Store) {
+    public async Store(body: Store, user: IUser) {
         const settingNew = new this.setting({
             ...body,
+            created_by: user.id,
+            organization: user.unit.name,
             status: status.DRAFT,
             is_active: false,
         })
@@ -57,6 +63,13 @@ class Repository {
     public async UpdateFooter(id: string, body: UpdateFooter) {
         return this.setting.findByIdAndUpdate(id, {
             footer: body,
+            updated_at: new Date(),
+        })
+    }
+
+    public async UpdateTheme(id: string, body: UpdateTheme) {
+        return this.setting.findByIdAndUpdate(id, {
+            body,
             updated_at: new Date(),
         })
     }

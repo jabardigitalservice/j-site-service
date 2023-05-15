@@ -4,7 +4,12 @@ import { Translate } from '../../../helpers/translate'
 import error from '../../../pkg/error'
 import statusCode from '../../../pkg/statusCode'
 import { IUser } from '../../../transport/http/middleware/verifyAuth'
-import { Store, UpdateFooter, UpdateNavigation } from '../entity/interface'
+import {
+    Store,
+    UpdateFooter,
+    UpdateNavigation,
+    UpdateTheme,
+} from '../entity/interface'
 import Repository from '../repository/mongo/repository'
 
 class Usecase {
@@ -13,7 +18,7 @@ class Usecase {
         private logger: winston.Logger
     ) {}
 
-    public async Store(body: Store) {
+    public async Store(body: Store, user: IUser) {
         const isExist = await this.repository.FindBySubdomain(body.subdomain)
 
         if (isExist)
@@ -22,7 +27,7 @@ class Usecase {
                 Translate('exists', { attribute: 'subdomain' })
             )
 
-        const result = await this.repository.Store(body)
+        const result = await this.repository.Store(body, user)
         return result
     }
 
@@ -49,6 +54,19 @@ class Usecase {
             )
 
         const result = await this.repository.UpdateFooter(id, body)
+        return result
+    }
+
+    public async UpdateTheme(id: string, body: UpdateTheme) {
+        const item = await this.repository.FindByID(id)
+
+        if (!item)
+            throw new error(
+                statusCode.NOT_FOUND,
+                statusCode[statusCode.NOT_FOUND]
+            )
+
+        const result = await this.repository.UpdateTheme(id, body)
         return result
     }
 

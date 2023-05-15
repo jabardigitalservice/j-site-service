@@ -24,9 +24,9 @@ const schema = new Schema(
             type: String,
             default: null,
         },
-        color_palatte: {
+        color_palette: {
             type: String,
-            required: true,
+            default: null,
         },
         subdomain: {
             type: String,
