@@ -1,7 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import winston from 'winston'
 import Usecase from '../../usecase/usecase'
-import { Store, UpdateFooter, UpdateNavigation } from '../../entity/schema'
+import {
+    Store,
+    UpdateFooter,
+    UpdateNavigation,
+    UpdateTheme,
+} from '../../entity/schema'
 import {
     ValidateFormRequest,
     ValidateObjectId,
@@ -21,13 +26,9 @@ class Handler {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
                 const user = req.user as IUser
-                const value = {
-                    ...ValidateFormRequest(Store, req.body),
-                    created_by: user.id,
-                    organization: user.unit.name,
-                }
+                const value = ValidateFormRequest(Store, req.body)
 
-                const result = await this.usecase.Store(value)
+                const result = await this.usecase.Store(value, user)
                 this.logger.info(statusCode[statusCode.CREATED], {
                     additional_info: this.http.AdditionalInfo(
                         req,
@@ -73,6 +74,29 @@ class Handler {
                     'idSetting'
                 )
                 await this.usecase.UpdateFooter(idSetting, value)
+                this.logger.info(statusCode[statusCode.OK], {
+                    additional_info: this.http.AdditionalInfo(
+                        req,
+                        statusCode.OK
+                    ),
+                })
+
+                return res.status(statusCode.OK).json({ message: 'UPDATED' })
+            } catch (error) {
+                return next(error)
+            }
+        }
+    }
+
+    public UpdateTheme() {
+        return async (req: any, res: Response, next: NextFunction) => {
+            try {
+                const value = ValidateFormRequest(UpdateTheme, req.body)
+                const idSetting = ValidateObjectId(
+                    req.params.idSetting,
+                    'idSetting'
+                )
+                await this.usecase.UpdateTheme(idSetting, value)
                 this.logger.info(statusCode[statusCode.OK], {
                     additional_info: this.http.AdditionalInfo(
                         req,

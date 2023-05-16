@@ -4,7 +4,6 @@ export const Store = Joi.object({
     subdomain: Joi.string().required(),
     favicon: Joi.string().uri().required(),
     logo: Joi.string().uri().required(),
-    color_palette: Joi.string().required(),
     name: Joi.string().required(),
 })
 
@@ -40,4 +39,8 @@ export const UpdateFooter = Joi.object({
         youtube: Joi.string().uri().optional().default(null),
         email: Joi.string().uri().optional().default(null),
     }).required(),
+})
+
+export const UpdateTheme = Joi.object({
+    color_palette: Joi.string().required(),
 })
