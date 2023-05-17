@@ -38,11 +38,13 @@ class Mongo {
         return setting.findById(id)
     }
 
-    public static FindByDomainSetting(database: string, domain: string) {
+    public static FindBySubDomainSetting(database: string, domain: string) {
         const setting = Setting(database)
+        let subdomain = RemoveProcotol(domain)
+        subdomain = subdomain.split('.')[0]
 
         return setting.findOne({
-            domain: RemoveProcotol(domain),
+            subdomain,
         })
     }
 
