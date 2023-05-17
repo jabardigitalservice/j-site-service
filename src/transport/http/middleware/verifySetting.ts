@@ -28,10 +28,10 @@ export const VerifySettingById = (database: string) => {
     }
 }
 
-export const VerifySettingByDomain = (database: string) => {
+export const VerifySettingBySubDomain = (database: string) => {
     return async (req: any, res: Response, next: NextFunction) => {
         try {
-            const setting = await Mongo.FindByDomainSetting(
+            const setting = await Mongo.FindBySubDomainSetting(
                 database,
                 req.headers.origin
             )
