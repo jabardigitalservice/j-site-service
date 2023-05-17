@@ -1,32 +1,30 @@
 import winston from 'winston'
-import mediaSchema from '../../../../database/mongo/schemas/media.schema'
 import { PropPaginate } from '../../../../helpers/paginate'
 import { Store } from '../../entity/interface'
+import Media from '../../../../database/mongo/schemas/media.schema'
 
 class Repository {
-    private schema = mediaSchema
-    constructor(private logger: winston.Logger) {}
+    private media
+    constructor(private logger: winston.Logger, database: string) {
+        this.media = Media(database)
+    }
 
-    public async Store(body: Store, database: string) {
-        const schema = this.schema(database)
-        const schemaNew = new schema(body)
+    public async Store(body: Store) {
+        const schemaNew = new this.media(body)
 
         return schemaNew.save()
     }
 
-    public async FindById(id: string, database: string) {
-        const schema = this.schema(database)
-        return schema.findById(id)
+    public async FindById(id: string) {
+        return this.media.findById(id)
     }
 
-    public async FindAll({ offset, limit }: PropPaginate, database: string) {
-        const schema = this.schema(database)
-        return schema.find().skip(offset).limit(limit)
+    public async FindAll({ offset, limit }: PropPaginate) {
+        return this.media.find().skip(offset).limit(limit)
     }
 
-    public async GetCount(database: string) {
-        const schema = this.schema(database)
-        return schema.count()
+    public async GetCount() {
+        return this.media.count()
     }
 }
 

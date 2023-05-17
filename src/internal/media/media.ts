@@ -14,18 +14,13 @@ class Media {
         private config: Config
     ) {
         const s3 = new S3(config)
-        const repository = new Repository(logger)
+        const repository = new Repository(logger, config.db.name)
         const usecase = new Usecase(repository, logger, s3)
         this.loadHttp(usecase)
     }
 
     private loadHttp(usecase: Usecase) {
-        const handler = new Handler(
-            usecase,
-            this.logger,
-            this.http,
-            this.config
-        )
+        const handler = new Handler(usecase, this.logger, this.http)
         this.httpPublic(handler)
         this.httpCms(handler)
     }

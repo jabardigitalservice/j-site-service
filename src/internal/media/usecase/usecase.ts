@@ -13,15 +13,15 @@ class Usecase {
         private s3: S3
     ) {}
 
-    public async Store(body: Store, database: string) {
+    public async Store(body: Store) {
         await this.s3.Upload(body.file.source as string, body.file.path)
         delete body.file.source
-        const result = await this.repository.Store(body, database)
+        const result = await this.repository.Store(body)
         return result
     }
 
-    public async Show(id: string, database: string) {
-        const item = await this.repository.FindById(id, database)
+    public async Show(id: string) {
+        const item = await this.repository.FindById(id)
 
         if (!item)
             throw new error(
@@ -32,9 +32,9 @@ class Usecase {
         return item
     }
 
-    public async FindAll(prop: PropPaginate, database: string) {
-        const data = await this.repository.FindAll(prop, database)
-        const count = await this.repository.GetCount(database)
+    public async FindAll(prop: PropPaginate) {
+        const data = await this.repository.FindAll(prop)
+        const count = await this.repository.GetCount()
 
         return { data, meta: Meta(prop, count) }
     }
