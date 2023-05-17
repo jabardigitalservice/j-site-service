@@ -12,15 +12,13 @@ import Http from '../../../../transport/http/http'
 import { unlinkSync } from 'fs'
 import { CustomPathFile } from '../../../../helpers/file'
 import { IUser } from '../../../../transport/http/middleware/verifyAuth'
-import { Config } from '../../../../config/config.interface'
 import slugify from 'slugify'
 
 class Handler {
     constructor(
         private usecase: Usecase,
         private logger: winston.Logger,
-        private http: Http,
-        private config: Config
+        private http: Http
     ) {}
 
     private getDataFormRequest = (req: any) => {
@@ -48,10 +46,7 @@ class Handler {
                 const slugFromUnitName = slugify(user.unit.name).toLowerCase()
                 value.file.path = CustomPathFile(slugFromUnitName, value)
 
-                const result = await this.usecase.Store(
-                    value,
-                    this.config.db.name
-                )
+                const result = await this.usecase.Store(value)
                 this.logger.info(statusCode[statusCode.CREATED], {
                     additional_info: this.http.AdditionalInfo(
                         req,
@@ -72,8 +67,7 @@ class Handler {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
                 const id = ValidateObjectId(req.params.idMedia, 'idMedia')
-                const setting = req.setting
-                const result = await this.usecase.Show(id, setting.id)
+                const result = await this.usecase.Show(id)
                 this.logger.info(statusCode[statusCode.OK], {
                     additional_info: this.http.AdditionalInfo(
                         req,
@@ -91,12 +85,8 @@ class Handler {
     public FindAll() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const setting = req.setting
                 const paginate = Paginate(req.query)
-                const { data, meta } = await this.usecase.FindAll(
-                    paginate,
-                    setting.id
-                )
+                const { data, meta } = await this.usecase.FindAll(paginate)
                 this.logger.info(statusCode[statusCode.OK], {
                     additional_info: this.http.AdditionalInfo(
                         req,
