@@ -3,7 +3,7 @@ import { Config } from '../../config/config.interface'
 import Http from '../../transport/http/http'
 import { VerifyAuth } from '../../transport/http/middleware/verifyAuth'
 import {
-    VerifySettingByDomain,
+    VerifySettingBySubDomain,
     VerifySettingById,
 } from '../../transport/http/middleware/verifySetting'
 import Handler from './delivery/http/handler'
@@ -28,12 +28,12 @@ class Pages {
     }
 
     private httpPublic(handler: Handler) {
-        const verifySettingByDomain = VerifySettingByDomain(this.config.db.name)
+        const verifySettingBySubDomain = VerifySettingBySubDomain(this.config.db.name)
         const Router = this.http.Router()
 
         Router.get('/:slug', handler.FindBySlug())
 
-        this.http.SetRouter('/v1/public/pages/', verifySettingByDomain, Router)
+        this.http.SetRouter('/v1/public/pages/', verifySettingBySubDomain, Router)
     }
 
     private httpCms(handler: Handler) {
