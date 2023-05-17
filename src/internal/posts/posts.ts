@@ -28,13 +28,19 @@ class Posts {
     }
 
     private httpPublic(handler: Handler) {
-        const verifySettingBySubDomain = VerifySettingBySubDomain(this.config.db.name)
+        const verifySettingBySubDomain = VerifySettingBySubDomain(
+            this.config.db.name
+        )
         const Router = this.http.Router()
 
         Router.get('/:slug', handler.FindBySlug())
         Router.get('/', handler.FindAll())
 
-        this.http.SetRouter('/v1/public/posts/', verifySettingBySubDomain, Router)
+        this.http.SetRouter(
+            '/v1/public/posts/',
+            verifySettingBySubDomain,
+            Router
+        )
     }
 
     private httpCms(handler: Handler) {

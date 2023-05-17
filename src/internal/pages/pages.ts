@@ -28,12 +28,18 @@ class Pages {
     }
 
     private httpPublic(handler: Handler) {
-        const verifySettingBySubDomain = VerifySettingBySubDomain(this.config.db.name)
+        const verifySettingBySubDomain = VerifySettingBySubDomain(
+            this.config.db.name
+        )
         const Router = this.http.Router()
 
         Router.get('/:slug', handler.FindBySlug())
 
-        this.http.SetRouter('/v1/public/pages/', verifySettingBySubDomain, Router)
+        this.http.SetRouter(
+            '/v1/public/pages/',
+            verifySettingBySubDomain,
+            Router
+        )
     }
 
     private httpCms(handler: Handler) {
