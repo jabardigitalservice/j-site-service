@@ -1,13 +1,13 @@
-import { CustomPathFile } from "./file"
+import { CustomPathFile } from './file'
 
 describe('test all function in file', () => {
-    it("test function CustomPathFile", () => {
-        const path = CustomPathFile("superadmin", {
+    it('test function CustomPathFile', () => {
+        const path = CustomPathFile('superadmin', {
             file: {
                 originalname: 'test.png',
-                filename: 'newNameFile'
+                filename: 'newNameFile',
             },
-            category: 'test'
+            category: 'test',
         })
 
         expect(path).toEqual('/superadmin/test/newNameFile.png')

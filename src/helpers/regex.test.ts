@@ -1,4 +1,4 @@
-import { RegexWordScript } from "./regex"
+import { RegexWordScript } from './regex'
 
 describe('test all in file regex', () => {
     it('test regex Word Script to replace on word `script`', () => {
