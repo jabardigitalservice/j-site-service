@@ -22,7 +22,7 @@ export default Joi.object({
     REDIS_TTL: Joi.number().optional(),
     FILE_TYPE: Joi.string()
         .optional()
-        .default('image/jpg,image/png,image/jpeg,application/pdf'),
+        .default('image/jpg,image/png,image/jpeg,application/pdf,image/svg+xml'),
     FILE_MAX: Joi.number().optional().default(10),
     FILE_URI: Joi.string().uri().optional(),
     AWS_ACCESS_KEY_ID: Joi.string().optional(),
