@@ -1,9 +1,9 @@
 import { Config } from '../config/config.interface'
 import error from '../pkg/error'
-import { Route53Client, TestDNSAnswerCommand } from "@aws-sdk/client-route-53";
+import { Route53Client, TestDNSAnswerCommand } from '@aws-sdk/client-route-53'
 
 /**
- * Reference for command 
+ * Reference for command
  * https://docs.aws.amazon.com/cli/latest/reference/route53/index.html
  */
 
@@ -24,7 +24,7 @@ class Route53 {
             const command = new TestDNSAnswerCommand({
                 HostedZoneId: this.config.aws.hosted_zone_id,
                 RecordName: recordName,
-                RecordType: this.config.aws.record_type
+                RecordType: this.config.aws.record_type,
             })
             const result = await this.client.send(command)
             return !!result.RecordData?.length
