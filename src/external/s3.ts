@@ -1,4 +1,8 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import {
+    S3Client,
+    PutObjectCommand,
+    DeleteObjectCommand,
+} from '@aws-sdk/client-s3'
 import { readFileSync } from 'fs'
 import { Config } from '../config/config.interface'
 import error from '../pkg/error'
@@ -23,6 +27,21 @@ class S3 {
                 Body: readFileSync(source),
             }
             const command = new PutObjectCommand(params)
+            const result = await this.s3.send(command)
+
+            return result
+        } catch (err: any) {
+            const code = err.$metadata.httpStatusCode as number
+            throw new error(code, 'cloud storage: ' + err.message)
+        }
+    }
+
+    public async Delete(path: string) {
+        try {
+            const command = new DeleteObjectCommand({
+                Bucket: this.config.aws.bucket,
+                Key: path,
+            })
             const result = await this.s3.send(command)
             return result
         } catch (err: any) {

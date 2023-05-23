@@ -19,6 +19,10 @@ class Repository {
         return this.media.findById(id)
     }
 
+    public async Destroy(id: string) {
+        return this.media.findByIdAndDelete(id)
+    }
+
     public async FindAll({ offset, limit }: PropPaginate) {
         return this.media.find().skip(offset).limit(limit)
     }

@@ -32,6 +32,21 @@ class Usecase {
         return item
     }
 
+    public async Destroy(id: string) {
+        const item = await this.repository.FindById(id)
+
+        if (!item)
+            throw new error(
+                statusCode.NOT_FOUND,
+                statusCode[statusCode.NOT_FOUND]
+            )
+
+        await this.s3.Delete(item.file.path)
+        await this.repository.Destroy(id)
+
+        return item
+    }
+
     public async FindAll(prop: PropPaginate) {
         const data = await this.repository.FindAll(prop)
         const count = await this.repository.GetCount()
