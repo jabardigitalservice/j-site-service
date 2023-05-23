@@ -46,6 +46,8 @@ const config: Config = {
         secret_access_key: env.AWS_SECRET_ACCESS_KEY,
         bucket: env.AWS_BUCKET,
         region: env.AWS_REGION,
+        hosted_zone_id: env.AWS_HOSTED_ZONE_ID,
+        record_type: env.AWS_RECORD_TYPE,
     },
     domain: {
         base_url: env.DOMAIN_BASE_URL,
