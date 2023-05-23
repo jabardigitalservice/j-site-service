@@ -10,6 +10,6 @@ describe('test all function in file', () => {
             category: 'test',
         })
 
-        expect(path).toEqual('/superadmin/test/newNameFile.png')
+        expect(path).toEqual('superadmin/test/newNameFile.png')
     })
 })

@@ -34,6 +34,7 @@ class Media {
         Router.post('/', this.http.Upload('file'), handler.Store())
         Router.get('/', handler.FindAll())
         Router.get('/:idMedia', handler.Show())
+        Router.delete('/:idMedia', handler.Destroy())
 
         this.http.SetRouter('/v1/media/', verifyAuth, Router)
     }
