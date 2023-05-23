@@ -28,7 +28,7 @@ class S3 {
             }
             const command = new PutObjectCommand(params)
             const result = await this.s3.send(command)
-            
+
             return result
         } catch (err: any) {
             const code = err.$metadata.httpStatusCode as number
