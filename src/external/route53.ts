@@ -3,7 +3,7 @@ import error from '../pkg/error'
 import { Route53Client, TestDNSAnswerCommand } from '@aws-sdk/client-route-53'
 
 /**
- * Reference for command
+ * Reference for list command
  * https://docs.aws.amazon.com/cli/latest/reference/route53/index.html
  */
 
