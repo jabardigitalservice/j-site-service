@@ -40,6 +40,8 @@ export interface Config {
         region: string
         hosted_zone_id: string
         record_type: string
+        resource_record_value: string
+        resource_record_ttl: number
     }
     domain: {
         base_url: string
