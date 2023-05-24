@@ -11,7 +11,7 @@ class Settings {
     constructor(
         private http: Http,
         private logger: winston.Logger,
-        private config: Config,
+        private config: Config
     ) {
         const route53 = new Route53(config)
         const repository = new Repository(logger, config.db.name)
