@@ -19,11 +19,11 @@ class Route53 {
         })
     }
 
-    public async TestDNSAnswer(recordName: string) {
+    public async TestDNSAnswer(subdomain: string) {
         try {
             const command = new TestDNSAnswerCommand({
                 HostedZoneId: this.config.aws.hosted_zone_id,
-                RecordName: recordName,
+                RecordName: `${subdomain}.${this.config.domain.base_url}`,
                 RecordType: this.config.aws.record_type,
             })
             const result = await this.client.send(command)
