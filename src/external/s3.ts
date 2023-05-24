@@ -8,9 +8,9 @@ import { Config } from '../config/config.interface'
 import error from '../pkg/error'
 
 class S3 {
-    private s3: S3Client
+    private client: S3Client
     constructor(private config: Config) {
-        this.s3 = new S3Client({
+        this.client = new S3Client({
             region: config.aws.region,
             credentials: {
                 accessKeyId: config.aws.access_key_id,
@@ -27,7 +27,7 @@ class S3 {
                 Body: readFileSync(source),
             }
             const command = new PutObjectCommand(params)
-            const result = await this.s3.send(command)
+            const result = await this.client.send(command)
 
             return result
         } catch (err: any) {
@@ -42,7 +42,7 @@ class S3 {
                 Bucket: this.config.aws.bucket,
                 Key: path,
             })
-            const result = await this.s3.send(command)
+            const result = await this.client.send(command)
             return result
         } catch (err: any) {
             const code = err.$metadata.httpStatusCode as number

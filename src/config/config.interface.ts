@@ -38,6 +38,8 @@ export interface Config {
         secret_access_key: string
         bucket: string
         region: string
+        hosted_zone_id: string
+        record_type: string
     }
     domain: {
         base_url: string
