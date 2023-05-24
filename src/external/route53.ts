@@ -35,7 +35,6 @@ class Route53 {
             resource_record_value,
             resource_record_ttl,
         } = config.aws
-        console.log(config.aws)
 
         this.recordType = record_type
         this.hostedZoneId = hosted_zone_id
