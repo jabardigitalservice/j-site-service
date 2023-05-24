@@ -11,17 +11,20 @@ import {
     UpdateTheme,
 } from '../entity/interface'
 import Repository from '../repository/mongo/repository'
+import Route53 from '../../../external/route53'
 
 class Usecase {
     constructor(
         private repository: Repository,
-        private logger: winston.Logger
+        private logger: winston.Logger,
+        private route53: Route53
     ) {}
 
     public async Store(body: Store, user: IUser) {
+        const testDNSAnswer = await this.route53.TestDNSAnswer(body.subdomain)
         const isExist = await this.repository.FindBySubdomain(body.subdomain)
 
-        if (isExist)
+        if (testDNSAnswer && isExist)
             throw new error(
                 statusCode.BAD_REQUEST,
                 Translate('exists', { attribute: 'subdomain' })
