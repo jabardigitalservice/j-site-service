@@ -22,9 +22,9 @@ class Usecase {
 
     public async Store(body: Store, user: IUser) {
         const testDNSAnswer = await this.route53.TestDNSAnswer(body.subdomain)
-        const isExist = await this.repository.FindBySubdomain(body.subdomain)
+        const item = await this.repository.FindBySubdomain(body.subdomain)
 
-        if (testDNSAnswer && isExist)
+        if (testDNSAnswer || item)
             throw new error(
                 statusCode.BAD_REQUEST,
                 Translate('exists', { attribute: 'subdomain' })
