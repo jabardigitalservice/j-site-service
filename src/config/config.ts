@@ -48,6 +48,8 @@ const config: Config = {
         region: env.AWS_REGION,
         hosted_zone_id: env.AWS_HOSTED_ZONE_ID,
         record_type: env.AWS_RECORD_TYPE,
+        resource_record_value: env.AWS_RESOURCE_RECORD_VALUE,
+        resource_record_ttl: env.AWS_RESOURCE_RECORD_TTL,
     },
     domain: {
         base_url: env.DOMAIN_BASE_URL,

@@ -33,5 +33,7 @@ export default Joi.object({
     AWS_REGION: Joi.string().optional(),
     AWS_HOSTED_ZONE_ID: Joi.string().optional(),
     AWS_RECORD_TYPE: Joi.string().optional(),
+    AWS_RESOURCE_RECORD_VALUE: Joi.string().optional(),
+    AWS_RESOURCE_RECORD_TTL: Joi.number().optional(),
     DOMAIN_BASE_URL: Joi.string().optional(),
 })
