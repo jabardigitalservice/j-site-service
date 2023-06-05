@@ -1,5 +1,6 @@
 import config from './config/config'
 import Mongo from './database/mongo/mongo'
+import Command from './external/command'
 import Media from './internal/media/media'
 import Pages from './internal/pages/pages'
 import Posts from './internal/posts/posts'

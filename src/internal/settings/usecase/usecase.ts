@@ -11,17 +11,19 @@ import {
     UpdateTheme,
 } from '../entity/interface'
 import Repository from '../repository/mongo/repository'
-import Route53 from '../../../external/route53'
+import Command from '../../../external/command'
 
 class Usecase {
     constructor(
         private repository: Repository,
         private logger: winston.Logger,
-        private route53: Route53
+        private command: Command
     ) {}
 
     public async Store(body: Store, user: IUser) {
-        const testDNSAnswer = await this.route53.TestDNSAnswer(body.subdomain)
+        const testDNSAnswer = await this.command.CheckAvailableDNS(
+            body.subdomain
+        )
         const item = await this.repository.FindBySubdomain(body.subdomain)
 
         if (testDNSAnswer || item)
