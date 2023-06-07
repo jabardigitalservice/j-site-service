@@ -5,7 +5,7 @@ import { VerifyAuth } from '../../transport/http/middleware/verifyAuth'
 import Handler from './delivery/http/handler'
 import Repository from './repository/mongo/repository'
 import Usecase from './usecase/usecase'
-import Route53 from '../../external/route53'
+import Command from '../../external/command'
 
 class Settings {
     constructor(
@@ -13,9 +13,9 @@ class Settings {
         private logger: winston.Logger,
         private config: Config
     ) {
-        const route53 = new Route53(config)
+        const command = new Command(config)
         const repository = new Repository(logger, config.db.name)
-        const usecase = new Usecase(repository, logger, route53)
+        const usecase = new Usecase(repository, logger, command)
 
         this.loadHttp(usecase)
     }
